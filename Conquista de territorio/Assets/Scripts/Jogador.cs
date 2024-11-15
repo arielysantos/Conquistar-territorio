@@ -1,5 +1,8 @@
 using UnityEngine;
 
+// Definindo um delegate que será chamado quando um jogador conquistar um bloco
+public delegate void BlocoConquistadoEventHandler(Jogador jogador, Bloco bloco);
+
 public class Jogador : MonoBehaviour
 {
     const float velocidade = 5f;
@@ -8,22 +11,25 @@ public class Jogador : MonoBehaviour
 
     private Vector2 direcao;
 
+    // Evento que será disparado quando um jogador conquistar um bloco
+    public event BlocoConquistadoEventHandler OnBlocoConquistado;
+
     void Update()
     {
         // Movimento baseado nas teclas de movimento configuradas
         if (jogador1)
         {
-            if(Input.GetKey(KeyCode.A))
+            if (Input.GetKey(KeyCode.A))
             {
                 direcao.x = -1;
             }
-            else if(Input.GetKey(KeyCode.D))
+            else if (Input.GetKey(KeyCode.D))
             {
                 direcao.x = 1;
             }
-            else 
-            { 
-                direcao.x = 0; 
+            else
+            {
+                direcao.x = 0;
             }
 
             if (Input.GetKey(KeyCode.S))
@@ -80,7 +86,11 @@ public class Jogador : MonoBehaviour
             if (!bloco.PegarConquistado())
             {
                 bloco.AlterarConquista(jogador1, corDoJogador); // Pinta o bloco com a cor do jogador
+
+                // Dispara o evento notificando que o bloco foi conquistado
+                OnBlocoConquistado?.Invoke(this, bloco);
             }
         }
     }
 }
+
