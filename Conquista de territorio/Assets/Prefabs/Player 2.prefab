@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 6054653774805614314}
   - component: {fileID: 6560625817662961637}
   - component: {fileID: 140591153939265362}
+  - component: {fileID: -94867030004069939}
+  - component: {fileID: 8854731560400167737}
   - component: {fileID: 7392885034148622189}
   m_Layer: 0
   m_Name: Player 2
@@ -52,6 +54,9 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -89,7 +94,7 @@ SpriteRenderer:
   m_SpriteSortPoint: 0
 --- !u!50 &6560625817662961637
 Rigidbody2D:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -100,8 +105,8 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -122,6 +127,7 @@ CircleCollider2D:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4395201951047689409}
   m_Enabled: 1
+  serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -145,10 +151,38 @@ CircleCollider2D:
     m_Bits: 4294967295
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_UsedByComposite: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &-94867030004069939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4395201951047689409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f8fedd92e0729b46bb99e76b93e1cfb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jogador1: 0
+  corDoJogador: {r: 0, g: 0, b: 0, a: 0}
+--- !u!114 &8854731560400167737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4395201951047689409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f8fedd92e0729b46bb99e76b93e1cfb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jogador1: 0
+  corDoJogador: {r: 1, g: 1, b: 1, a: 0}
 --- !u!114 &7392885034148622189
 MonoBehaviour:
   m_ObjectHideFlags: 0
