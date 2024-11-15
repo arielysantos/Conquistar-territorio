@@ -1,27 +1,25 @@
 using UnityEngine;
 
+
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] GameObject blocoPrefab; // Prefab do bloco
-    [SerializeField] GameObject jogador1; // Prefab do jogador 1
-    [SerializeField] GameObject jogador2; // Prefab do jogador 2
-    [SerializeField] int linhas = 5; // Número de linhas da matriz
-    [SerializeField] int colunas = 5; // Número de colunas da matriz
-    [SerializeField] float espacamento = 1.1f; // Espaçamento entre os blocos
-
-    private Bloco[,] grade; // Matriz 2D para armazenar os blocos
+    [SerializeField] GameObject blocoPrefab;
+    [SerializeField] GameObject jogador1;
+    [SerializeField] GameObject jogador2;
+    [SerializeField] int linhas = 5;
+    [SerializeField] int colunas = 5;
+    [SerializeField] float espacamento = 1.1f;
+    private Bloco[,] grade;
     private int territoriosConquistados;
-
     public static GameManager instance;
-
     void Awake()
     {
         instance = this;
         grade = new Bloco[linhas, colunas];
+        // Inscrição no evento do bloco
+        Bloco.OnBlocoConquistado += AtualizarTerritorios;
         CriarGrade();
     }
-
-    // Método para criar a matriz de blocos
     void CriarGrade()
     {
         for (int linha = 0; linha < linhas; linha++)
@@ -33,8 +31,6 @@ public class GameManager : MonoBehaviour
                 grade[linha, coluna] = novoBloco.GetComponent<Bloco>();
             }
         }
-
-        // Posicionar o jogador 1 e jogador 2
         Vector2 posicaoInicialJogador1 = new Vector2((colunas - 1) * espacamento / 2f - espacamento, (linhas - 1) * espacamento / 2f);
         Vector2 posicaoInicialJogador2 = new Vector2((colunas - 1) * espacamento / 2f + espacamento, (linhas - 1) * espacamento / 2f);
         Camera.main.transform.position = new Vector3((colunas - 1) * espacamento / 2f, (linhas - 1) * espacamento / 2f, -10);
@@ -42,34 +38,25 @@ public class GameManager : MonoBehaviour
         Instantiate(jogador1, posicaoInicialJogador1, Quaternion.identity);
         Instantiate(jogador2, posicaoInicialJogador2, Quaternion.identity);
     }
-
-    // Método que é chamado quando um território é conquistado
-    public void ConquistarTerritorio()
+    // Método chamado quando um bloco é conquistado
+    void AtualizarTerritorios(Bloco bloco, int jogadorDono)
     {
         territoriosConquistados++;
-
-        if(territoriosConquistados == grade.Length)
+        // Verifica se todos os blocos foram conquistados
+        if (territoriosConquistados == grade.Length)
         {
-            int jogador1 = 0;
-            int jogador2 = 0;
-
-            foreach(Bloco bloco in grade)
+            int jogador1Territorios = 0;
+            int jogador2Territorios = 0;
+            foreach (Bloco b in grade)
             {
-                if(bloco.PegarJogadorDono() == 1)
-                {
-                    jogador1++;
-                }
-                else
-                {
-                    jogador2++;
-                }
+                if (b.PegarJogadorDono() == 1)
+                    jogador1Territorios++;
+                else if (b.PegarJogadorDono() == 2)
+                    jogador2Territorios++;
             }
-
-            FimDeJogo(jogador1, jogador2);
+            FimDeJogo(jogador1Territorios, jogador2Territorios);
         }
     }
-
-    // Método que finaliza o jogo e declara o vencedor
     void FimDeJogo(int territoriosJogador1, int territoriosJogador2)
     {
         string vencedor;
@@ -85,7 +72,11 @@ public class GameManager : MonoBehaviour
         {
             vencedor = "Empate!";
         }
-
         Debug.Log("Fim do jogo! " + vencedor);
+    }
+    void OnDestroy()
+    {
+        // Remove a inscrição do evento ao destruir o GameManager
+        Bloco.OnBlocoConquistado -= AtualizarTerritorios;
     }
 }
